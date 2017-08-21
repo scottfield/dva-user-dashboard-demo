@@ -1,4 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
+// 引入 connect 工具函数
+import { connect } from 'dva';
 // Users 的 Presentational Component
 // 暂时都没实现
 import UserList from '../components/Users/UserList';
@@ -8,9 +10,18 @@ import UserModal from '../components/Users/UserModal';
 // 可以暂时新建一个空的
 import styles from './Users.less';
 
-function Users() {
+function Users({ location, dispatch, users }) {
+  const {
+    loading, list, total, current,
+    currentItem, modalVisible, modalType,
+  } = users;
   const userSearchProps = {};
-  const userListProps = {};
+  const userListProps = {
+    dataSource: list,
+    total,
+    loading,
+    current,
+  };
   const userModalProps = {};
 
   return (
@@ -25,4 +36,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default connect(({users}) => ({users}))(Users);
